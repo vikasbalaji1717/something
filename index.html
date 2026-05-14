@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💕 A Question For You...</title>
+  <link rel="stylesheet" href="/style.css"/>
+  <!-- Google Fonts: Playfair Display + Lato -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ========== LOADING SCREEN ========== -->
+  <div id="loading-screen">
+    <div class="loader-heart">💕</div>
+    <p class="loader-text">Preparing something special...</p>
+  </div>
+
+  <!-- ========== BACKGROUND HEARTS ========== -->
+  <div id="bg-hearts" aria-hidden="true"></div>
+
+  <!-- ========== CUSTOM CURSOR ========== -->
+  <div id="cursor" aria-hidden="true">💗</div>
+
+  <!-- ========== MUSIC TOGGLE ========== -->
+  <button id="music-btn" title="Toggle Music" aria-label="Toggle background music">
+    🎵
+  </button>
+
+  <!-- ========== MAIN PROPOSAL CARD ========== -->
+  <main id="main-screen">
+    <div class="card" id="proposal-card">
+
+      <!-- Decorative top ribbon -->
+      <div class="card-ribbon">💌 A Little Question 💌</div>
+
+      <!-- Animated emoji row -->
+      <div class="emoji-row" aria-hidden="true">
+        <span class="e1">🌹</span>
+        <span class="e2">💖</span>
+        <span class="e3">✨</span>
+        <span class="e4">💖</span>
+        <span class="e5">🌹</span>
+      </div>
+
+      <!-- Main Question Text (changes on every No click) -->
+      <h1 id="question" class="question-text">Will You Love Me? ❤️</h1>
+
+      <!-- Sub-hint text -->
+      <p id="sub-hint" class="sub-hint">Think carefully... 😏</p>
+
+      <!-- Buttons wrapper -->
+      <div class="buttons-wrap" id="buttons-wrap">
+
+        <!-- YES Button -->
+        <button id="yes-btn" class="btn btn-yes" onclick="handleYes()">
+          Yes 💖
+        </button>
+
+        <!-- NO Button -->
+        <button id="no-btn" class="btn btn-no" onclick="handleNo()">
+          No 💔
+        </button>
+
+      </div>
+
+      <!-- Click counter hint -->
+      <p id="counter-hint" class="counter-hint"></p>
+
+    </div>
+  </main>
+
+  <!-- ========== SUCCESS / CELEBRATION SCREEN ========== -->
+  <div id="success-screen" class="hidden">
+
+    <!-- Confetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Celebration card -->
+    <div class="celebration-card">
+      <div class="big-heart" id="big-heart">💗</div>
+      <h2 class="celebrate-title">Yayyyy!</h2>
+      <p class="celebrate-msg">You made me the happiest person alive 💕</p>
+      <div class="heart-burst" id="heart-burst" aria-hidden="true"></div>
+      <button class="btn btn-again" onclick="resetPage()">🔄 Start Over</button>
+    </div>
+
+  </div>
+
+  <!-- ========== BACKGROUND AUDIO ========== -->
+  <!--
+    Place a romantic MP3 file named "music.mp3" inside static/music/
+    The toggle button will play/pause it.
+  -->
+  <audio id="bg-music" loop>
+    <source src="/music/music.mp3" type="audio/mpeg"/>
+  </audio>
+
+  <!-- Click sound effect (tiny beep generated via Web Audio API in script.js) -->
+
+  <script src="/script.js"></script>
+</body>
+</html>

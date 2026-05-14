@@ -1,0 +1,415 @@
+/* ================================================
+   Romantic Proposal Website — style.css
+   Theme: Deep rose / plum / blush glassmorphism
+   ================================================ */
+
+/* ---------- CSS VARIABLES ---------- */
+:root {
+  --rose:      #e8436a;
+  --deep-rose: #c02055;
+  --blush:     #ffd6e0;
+  --plum:      #7b2d5e;
+  --lavender:  #d9a5c8;
+  --cream:     #fff5f8;
+  --glass-bg:  rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(255, 200, 220, 0.4);
+  --shadow:    0 8px 40px rgba(180, 40, 100, 0.25);
+  --font-display: 'Playfair Display', serif;
+  --font-body:    'Lato', sans-serif;
+}
+
+/* ---------- RESET & BASE ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #1a0010 0%, #5c1040 40%, #3d0a2e 70%, #0d000a 100%);
+  cursor: none; /* use custom cursor */
+  position: relative;
+}
+
+/* ---------- CUSTOM CURSOR ---------- */
+#cursor {
+  position: fixed;
+  top: -20px; left: -20px;
+  font-size: 1.4rem;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.08s ease;
+  filter: drop-shadow(0 0 6px rgba(232,67,106,0.8));
+}
+
+/* ---------- LOADING SCREEN ---------- */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #1a0010, #5c1040, #1a0010);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 8000;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.loader-heart {
+  font-size: 5rem;
+  animation: heartbeat 0.8s ease-in-out infinite;
+}
+.loader-text {
+  margin-top: 1.2rem;
+  color: var(--blush);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  animation: fadeInOut 1.5s ease infinite;
+}
+
+/* ---------- BACKGROUND FLOATING HEARTS ---------- */
+#bg-hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-heart {
+  position: absolute;
+  bottom: -60px;
+  font-size: 1.6rem;
+  opacity: 0;
+  animation: floatUp linear infinite;
+  filter: drop-shadow(0 0 6px rgba(232,67,106,0.5));
+}
+
+/* ---------- MUSIC BUTTON ---------- */
+#music-btn {
+  position: fixed;
+  top: 18px; right: 20px;
+  z-index: 500;
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: transform 0.25s, background 0.25s;
+  box-shadow: 0 4px 16px rgba(200,40,100,0.3);
+}
+#music-btn:hover { transform: scale(1.15) rotate(10deg); background: rgba(255,255,255,0.28); }
+#music-btn.playing { animation: spin 4s linear infinite; }
+
+/* ---------- MAIN SCREEN ---------- */
+#main-screen {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* ---------- GLASSMORPHISM CARD ---------- */
+.card {
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 28px;
+  padding: 3rem 2.5rem 2.5rem;
+  max-width: 540px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.2);
+  position: relative;
+  overflow: visible;
+  animation: cardEntrance 1s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+/* ---------- CARD RIBBON ---------- */
+.card-ribbon {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, var(--deep-rose), var(--plum));
+  color: #fff;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 1.4rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(180,40,100,0.4);
+}
+
+/* ---------- EMOJI ROW ---------- */
+.emoji-row {
+  font-size: 1.5rem;
+  margin-bottom: 1.4rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+}
+.emoji-row span { display: inline-block; }
+.e1 { animation: sway 3s ease-in-out infinite; }
+.e2 { animation: heartbeat 1s ease-in-out infinite; }
+.e3 { animation: spin 4s linear infinite; }
+.e4 { animation: heartbeat 1s ease-in-out infinite 0.3s; }
+.e5 { animation: sway 3s ease-in-out infinite 0.5s; }
+
+/* ---------- QUESTION TEXT ---------- */
+.question-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 0.7rem;
+  text-shadow: 0 2px 20px rgba(232,67,106,0.6);
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  min-height: 3.5em;          /* prevents layout jump when text changes */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.question-text.pop {
+  animation: textPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ---------- SUB HINT ---------- */
+.sub-hint {
+  color: var(--lavender);
+  font-size: 0.95rem;
+  margin-bottom: 2.2rem;
+  font-style: italic;
+  transition: opacity 0.4s;
+}
+
+/* ---------- BUTTONS ---------- */
+.buttons-wrap {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+  position: relative;
+  min-height: 56px;
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 2.2rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  z-index: 10;
+  outline: none;
+}
+
+/* YES button */
+.btn-yes {
+  background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(200,40,100,0.5);
+}
+.btn-yes:hover {
+  transform: scale(1.1) translateY(-3px);
+  box-shadow: 0 8px 30px rgba(200,40,100,0.7);
+}
+.btn-yes:active { transform: scale(0.97); }
+
+/* NO button */
+.btn-no {
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,200,220,0.4);
+  color: var(--blush);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  /* When moving, it's fixed positioned — see JS */
+}
+.btn-no:hover {
+  background: rgba(255,255,255,0.22);
+  transform: scale(1.05);
+}
+
+/* Moving NO button (class toggled by JS) */
+.btn-no.is-moving {
+  position: fixed;
+  z-index: 200;
+  transition: top 0.45s cubic-bezier(0.34,1.56,0.64,1),
+              left 0.45s cubic-bezier(0.34,1.56,0.64,1),
+              transform 0.2s;
+  pointer-events: auto;
+}
+
+/* Reset / start-over button */
+.btn-again {
+  background: linear-gradient(135deg, var(--plum), var(--rose));
+  color: #fff;
+  margin-top: 1.4rem;
+  box-shadow: 0 4px 20px rgba(123,45,94,0.5);
+}
+.btn-again:hover { transform: scale(1.08); }
+
+/* ---------- COUNTER HINT ---------- */
+.counter-hint {
+  color: rgba(255,200,220,0.6);
+  font-size: 0.78rem;
+  min-height: 1.2em;
+  transition: opacity 0.3s;
+}
+
+/* ====================================================
+   SUCCESS / CELEBRATION SCREEN
+   ==================================================== */
+#success-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a0010 0%, #5c1040 50%, #0d000a 100%);
+  transition: opacity 0.5s;
+}
+#success-screen.hidden { display: none; }
+
+#confetti-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.celebration-card {
+  position: relative;
+  z-index: 10;
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  backdrop-filter: blur(24px);
+  border-radius: 28px;
+  padding: 3rem 2.5rem;
+  max-width: 460px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow);
+  animation: cardEntrance 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+.big-heart {
+  font-size: 5rem;
+  animation: heartbeat 0.7s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px rgba(232,67,106,0.9));
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.celebrate-title {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(232,67,106,0.8);
+  margin-bottom: 0.6rem;
+}
+
+.celebrate-msg {
+  font-size: 1.15rem;
+  color: var(--blush);
+  font-style: italic;
+  font-family: var(--font-display);
+  line-height: 1.6;
+}
+
+/* Heart burst particles */
+.heart-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 28px;
+}
+.burst-heart {
+  position: absolute;
+  font-size: 1.4rem;
+  animation: burstOut 1.2s ease-out forwards;
+  opacity: 0;
+}
+
+/* ================================================
+   KEYFRAMES
+   ================================================ */
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.18); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-10deg); }
+  50%       { transform: rotate(10deg); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-110vh) scale(1.2) rotate(25deg); opacity: 0; }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+
+@keyframes cardEntrance {
+  from { opacity: 0; transform: scale(0.7) translateY(40px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes textPop {
+  0%   { transform: scale(0.85); opacity: 0; }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+@keyframes burstOut {
+  0%   { transform: translate(0,0) scale(0); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(1.4); opacity: 0; }
+}
+
+@keyframes shakeNo {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px) rotate(-4deg); }
+  40%       { transform: translateX(8px) rotate(4deg); }
+  60%       { transform: translateX(-6px); }
+  80%       { transform: translateX(6px); }
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+@media (max-width: 480px) {
+  .card { padding: 2.4rem 1.4rem 2rem; }
+  .question-text { font-size: 1.4rem; }
+  .btn { font-size: 0.98rem; padding: 0.65rem 1.6rem; }
+  .celebrate-title { font-size: 2rem; }
+}
